@@ -872,7 +872,6 @@ int ReadDecodeXML(char *file)
             return(0);
         }
 
-        free(pi);
         i++;
     } /* while (node[i]) */
 
