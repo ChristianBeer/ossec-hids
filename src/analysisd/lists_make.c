@@ -90,6 +90,8 @@ void Lists_OP_MakeCDB(char *txt_filename, char *cdb_filename, int force)
             if(force) print_out("  * adding - key: %s value: %s",key,val);
         }
         cdb_make_finish(&cdbm);
+        fclose(tmp_fd);
+        fclose(txt_fd);
         rename(tmp_filename,cdb_filename);
     }
     else

@@ -90,6 +90,7 @@ OSDecoderNode *_OS_AddOSDecoder(OSDecoderNode *s_node, OSDecoderInfo *pi)
                 if(pi->prematch)
                 {
                     merror(PDUP_INV, ARGV0,pi->name);
+                    free(new_node);
                     return(NULL);
                 }
 
@@ -97,6 +98,7 @@ OSDecoderNode *_OS_AddOSDecoder(OSDecoderNode *s_node, OSDecoderInfo *pi)
                 if(pi->fts)
                 {
                     merror(PDUPFTS_INV, ARGV0,pi->name);
+                    free(new_node);
                     return(NULL);
                 }
 
@@ -107,6 +109,7 @@ OSDecoderNode *_OS_AddOSDecoder(OSDecoderNode *s_node, OSDecoderInfo *pi)
                 else
                 {
                     merror(DUP_INV, ARGV0,pi->name);
+                    free(new_node);
                     return(NULL);
                 }
             }
@@ -118,6 +121,7 @@ OSDecoderNode *_OS_AddOSDecoder(OSDecoderNode *s_node, OSDecoderInfo *pi)
         if(!rm_f && (pi->regex_offset & AFTER_PREVREGEX))
         {
             merror(INV_OFFSET, ARGV0, pi->name);
+            free(new_node);
             return(NULL);
         }
 

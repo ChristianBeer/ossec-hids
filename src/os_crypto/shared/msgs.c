@@ -174,10 +174,10 @@ void OS_RemoveCounter(char *id)
 }
 
 
-/** StoreSenderCounter((keystore *keys, int global, int local)
+/** StoreSenderCounter((keystore *keys, unsigned int global, unsigned int local)
  * Store sender counter.
  */
-void StoreSenderCounter(keystore *keys, int global, int local)
+void StoreSenderCounter(keystore *keys, unsigned int global, unsigned int local)
 {
     /* Writting at the beginning of the file */
     fseek(keys->keyentries[keys->keysize]->fp, 0, SEEK_SET);
@@ -188,7 +188,7 @@ void StoreSenderCounter(keystore *keys, int global, int local)
 /* StoreCount(keystore *keys, int id, int global, int local)
  * Store the global and local count of events.
  */
-void StoreCounter(keystore *keys, int id, int global, int local)
+void StoreCounter(keystore *keys, int id, unsigned int global, unsigned int local)
 {
     /* Writting at the beginning of the file */
     fseek(keys->keyentries[id]->fp, 0, SEEK_SET);

@@ -129,10 +129,15 @@ int seechanges_dupfile(char *old, char *new)
     buf[2048] = '\0';
 
     fpr = fopen(old,"r");
-    fpw = fopen(new,"w");
-
-    if(!fpr || !fpw)
+    if(!fpr)
     {
+        return(0);
+    }
+
+    fpw = fopen(new,"w");
+    if(!fpw)
+    {
+        fclose(fpr);
         return(0);
     }
 

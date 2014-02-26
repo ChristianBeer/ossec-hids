@@ -175,7 +175,7 @@ int read_sys_dir(char *dir_name, int do_read)
     DIR *dp;
 
 	struct dirent *entry;
-    struct stat statbuf;	
+    struct stat statbuf;
 
     #ifndef WIN32
     char *(dirs_to_doread[]) = { "/bin", "/sbin", "/usr/bin",
@@ -347,7 +347,7 @@ int read_sys_dir(char *dir_name, int do_read)
         {
             snprintf(op_msg, OS_SIZE_1024, "Files hidden inside directory "
                     "'%s'. Link count does not match number of files "
-                    "(%d,%d).",
+                    "(%u,%d).",
                     dir_name, entry_count, (int)statbuf.st_nlink);
 
             /* Solaris /boot is terrible :) */

@@ -275,11 +275,12 @@ char *OS_GetAttributeContent(OS_XML *_lxml, char **element_name,
     {
         if(*ret == NULL)
             break;
-        free(*ret++);	
+        free(*ret++);
     }
     if(success)
         return(uniqret);
 
+    // cppcheck-suppress memleak
     return(NULL);
 }
 
@@ -362,7 +363,7 @@ char **_GetElementContent(OS_XML *_lxml, char **element_name, char *attr)
             /* Get content if we are at the end of the array. */
             if(element_name[j] == NULL)
             {
-                /* If we have an attribute to match. */	
+                /* If we have an attribute to match. */
                 if(attr != NULL)
                 {
                     int k=0;

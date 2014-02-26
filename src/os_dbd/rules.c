@@ -88,7 +88,7 @@ int __Groups_SelectGroupMapping(int cat_id, int rule_id, DBConfig *db_config)
     /* Generating SQL */
     snprintf(sql_query, OS_SIZE_1024 -1,
             "SELECT id FROM signature_category_mapping "
-            "WHERE cat_id = '%u' AND rule_id = '%u'",
+            "WHERE cat_id = '%i' AND rule_id = '%i'",
             cat_id, rule_id);
 
 
@@ -112,7 +112,7 @@ int __Groups_InsertGroupMapping(int cat_id, int rule_id, DBConfig *db_config)
     snprintf(sql_query, OS_SIZE_1024 -1,
             "INSERT INTO "
             "signature_category_mapping(cat_id, rule_id) "
-            "VALUES ('%u', '%u')",
+            "VALUES ('%i', '%i')",
             cat_id, rule_id);
 
 

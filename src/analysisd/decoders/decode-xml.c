@@ -353,6 +353,7 @@ int ReadDecodeXML(char *file)
         if(!pi->name)
         {
             merror(MEM_ERROR, ARGV0);
+            free(pi);
             return(0);
         }
 
@@ -360,6 +361,7 @@ int ReadDecodeXML(char *file)
         if(!addDecoder2list(pi->name))
         {
             merror(MEM_ERROR, ARGV0);
+            free(pi);
             return(0);
         }
 
@@ -369,11 +371,13 @@ int ReadDecodeXML(char *file)
             if(!elements[j]->element)
             {
                 merror(XML_ELEMNULL, ARGV0);
+                free(pi);
                 return(0);
             }
             else if(!elements[j]->content)
             {
                 merror(XML_VALUENULL, ARGV0, elements[j]->element);
+                free(pi);
                 return(0);
             }
 
@@ -393,6 +397,7 @@ int ReadDecodeXML(char *file)
                 if(r_offset & AFTER_ERROR)
                 {
                     merror(DEC_REGEX_ERROR, ARGV0, pi->name);
+                    free(pi);
                     return(0);
                 }
 
@@ -401,6 +406,7 @@ int ReadDecodeXML(char *file)
                 {
                     merror(DUP_REGEX, ARGV0, pi->name);
                     merror(DEC_REGEX_ERROR, ARGV0, pi->name);
+                    free(pi);
                     return(0);
                 }
 
@@ -487,6 +493,7 @@ int ReadDecodeXML(char *file)
                 {
                     merror(INV_DECOPTION, ARGV0, elements[j]->element,
                                           elements[j]->content);
+                    free(pi);
                     return(0);
                 }
             }
@@ -515,6 +522,7 @@ int ReadDecodeXML(char *file)
                 {
                     merror("%s: Invalid decoder type '%s'.",
                                ARGV0, elements[j]->content);
+                    free(pi);
                     return(0);
                 }
             }
@@ -702,6 +710,7 @@ int ReadDecodeXML(char *file)
                         ARGV0,
                         elements[j]->element,
                         node[i]->element);
+                free(pi);
                 return(0);
             }
 
@@ -718,6 +727,7 @@ int ReadDecodeXML(char *file)
         {
             merror(DECODE_NOPRE, ARGV0, pi->name);
             merror(DEC_REGEX_ERROR, ARGV0, pi->name);
+            free(pi);
             return(0);
         }
 
@@ -725,6 +735,7 @@ int ReadDecodeXML(char *file)
         if((!regex && (pi->fts || pi->order)) || (regex && !pi->order))
         {
             merror(DEC_REGEX_ERROR, ARGV0, pi->name);
+            free(pi);
             return(0);
         }
 
@@ -734,6 +745,7 @@ int ReadDecodeXML(char *file)
         {
             merror(INV_OFFSET, ARGV0, "after_parent");
             merror(DEC_REGEX_ERROR, ARGV0, pi->name);
+            free(pi);
             return(0);
         }
 
@@ -752,6 +764,7 @@ int ReadDecodeXML(char *file)
             {
                 merror(INV_OFFSET, ARGV0, "after_prematch");
                 merror(DEC_REGEX_ERROR, ARGV0, pi->name);
+                free(pi);
                 return(0);
             }
         }
@@ -763,6 +776,7 @@ int ReadDecodeXML(char *file)
             {
                 merror(INV_OFFSET, ARGV0, "after_regex");
                 merror(DEC_REGEX_ERROR, ARGV0, pi->name);
+                free(pi);
                 return(0);
             }
         }
@@ -778,12 +792,14 @@ int ReadDecodeXML(char *file)
                 {
                     merror(INV_OFFSET, ARGV0, "after_parent");
                     merror(DEC_REGEX_ERROR, ARGV0, pi->name);
+                    free(pi);
                     return(0);
                 }
             }
             else
             {
                 merror(DEC_REGEX_ERROR, ARGV0, pi->name);
+                free(pi);
                 return(0);
             }
         }
@@ -796,6 +812,7 @@ int ReadDecodeXML(char *file)
             if(!OSRegex_Compile(prematch, pi->prematch, 0))
             {
                 merror(REGEX_COMPILE, ARGV0, prematch, pi->prematch->error);
+                free(pi);
                 return(0);
             }
 
@@ -809,6 +826,7 @@ int ReadDecodeXML(char *file)
             if(!OSMatch_Compile(p_name, pi->program_name, 0))
             {
                 merror(REGEX_COMPILE, ARGV0, p_name, pi->program_name->error);
+                free(pi);
                 return(0);
             }
 
@@ -822,6 +840,7 @@ int ReadDecodeXML(char *file)
             if(!OSRegex_Compile(regex, pi->regex, OS_RETURN_SUBSTRING))
             {
                 merror(REGEX_COMPILE, ARGV0, regex, pi->regex->error);
+                free(pi);
                 return(0);
             }
 
@@ -829,6 +848,7 @@ int ReadDecodeXML(char *file)
             if(!pi->regex->sub_strings)
             {
                 merror(REGEX_SUBS, ARGV0, regex);
+                free(pi);
                 return(0);
             }
 
@@ -840,6 +860,7 @@ int ReadDecodeXML(char *file)
         if(pi->plugindecoder && (pi->regex || pi->order))
         {
             merror(DECODE_ADD, ARGV0, pi->name);
+            free(pi);
             return(0);
         }
 
@@ -847,9 +868,11 @@ int ReadDecodeXML(char *file)
         if(!OS_AddOSDecoder(pi))
         {
             merror(DECODER_ERROR, ARGV0);
+            free(pi);
             return(0);
         }
 
+        free(pi);
         i++;
     } /* while (node[i]) */
 
@@ -857,9 +880,7 @@ int ReadDecodeXML(char *file)
     /* Cleaning  node and XML structures */
     OS_ClearNode(node);
 
-
     OS_ClearXML(&xml);
-
 
     /* Done over here */
     return(1);
